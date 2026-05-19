@@ -7,6 +7,13 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, x-auth');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 const AUTH_KEY   = process.env.AUTH_KEY   || 'GoldMind';
 const SHEETS_URL = process.env.SHEETS_URL || '';  // paste Apps Script URL here
